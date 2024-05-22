@@ -5,8 +5,15 @@ public static class GameStatics
     public static bool runRight = true;
     public static bool runLeft = true;
     public static bool canJump = true;
+    public static bool canAttack = true;
 
+    public static bool forceAttack = true;
     public static GameStatus gameStatus = GameStatus.NotStart;
 
-    public static bool canAttack = true;
+    public static bool aiRunFront = true;
+    public static bool aiRunBack = true;
+    public static bool aiRunRight = true;
+    public static bool aiRunLeft = true;
+    public static bool aiCanJump = true;
+    public static bool aiCanAttack = true;
 }

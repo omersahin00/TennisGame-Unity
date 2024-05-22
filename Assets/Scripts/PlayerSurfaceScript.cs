@@ -12,6 +12,7 @@ public class PlayerSurfaceScript : MonoBehaviour
         else if (gameObject.name.Contains("Back")) side = SideEnum.Back;
         else if (gameObject.name.Contains("Right")) side = SideEnum.Right;
         else if (gameObject.name.Contains("Left")) side = SideEnum.Left;
+        else Debug.LogError("Surface Error");
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -38,7 +39,6 @@ public class PlayerSurfaceScript : MonoBehaviour
             }
         }
     }
-
 
     private void OnCollisionExit(Collision collision)
     {

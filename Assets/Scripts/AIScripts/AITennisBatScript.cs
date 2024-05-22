@@ -1,16 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class TennisBatScript : MonoBehaviour
+public class AITennisBatScript : MonoBehaviour
 {
     private Timer timer;
     private new Animation animation;
     private GameObject ballObject;
     private Rigidbody ballRigidBody;
 
-    void Start()
+    private void Start()
     {
         ballObject = GameObject.Find("Ball");
         ballRigidBody = ballObject.GetComponent<Rigidbody>();
@@ -19,49 +18,29 @@ public class TennisBatScript : MonoBehaviour
         animation = GetComponent<Animation>();
     }
 
-    void Update()
+    public void Attack()
     {
-        AttackManager();
-    }
-
-    private void AttackManager()
-    {
-        if (Input.GetButtonDown("Fire1"))
+        if (GameStatics.aiCanAttack)
         {
-            if (GameStatics.forceAttack)
-            {
-                ForceAttack();
-            }
-            else
-            {
-                Attack();
-            }
-        }
-    }
+            Debug.LogError("ai normal attack");
 
-    private void Attack()
-    {
-        if (GameStatics.canAttack)
-        {
-            Debug.LogError("Normal attack");
-
-            GameStatics.canAttack = false;
+            GameStatics.aiCanAttack = false;
             ballRigidBody.velocity *= -1;
             timer.StartTimer(.1f, CanAttack);
 
             PlayAnimation();
-        }   
+        }
     }
 
-    private void ForceAttack()
+    public void ForceAttack()
     {
-        if (GameStatics.canAttack)
+        if (GameStatics.aiCanAttack)
         {
-            Debug.LogError("Force Attack");
-
             GameStatics.gameStatus = GameStatus.Run;
-            GameStatics.canAttack = false;
+            GameStatics.aiCanAttack = false;
             GameStatics.forceAttack = false;
+
+            Debug.LogError("ai force attack");
 
             ballRigidBody.velocity = Vector3.zero;
 
@@ -76,16 +55,16 @@ public class TennisBatScript : MonoBehaviour
 
             float netDistance = Mathf.Pow(Mathf.Abs(transform.position.x), 2) / 100;
 
-            Vector3 distance = transform.position - ballObject.transform.position;
+            Vector3 distance = ballObject.transform.position - transform.position;
 
-            if ((distance.magnitude <= 3f || (distance.magnitude <= 3f && distance.y <= 4f)) && distance.x < 1f)
+            if ((distance.magnitude <= 4f || (distance.magnitude <= 4f && distance.y <= 5f)) && distance.x < 1f)
             {
-                float shootForce = ((3f - distance.x) / 4) + (Mathf.Abs(verticalMoveForce) / 2) + (netDistance / 4);
-                float shootHeight = (((3f - distance.y) / 6) - (distanceToGround / 2) + (netDistance / 6)) / 2;
+                float shootForce = ((3f - distance.x) / 3) + (netDistance / 5);
+                float shootHeight = (((3f - distance.y) / 5) + (netDistance / 7)) / 2;
 
-                print(shootForce + "  -1-  " + shootHeight);
+                print(shootForce + "  -2-  " + shootHeight);
 
-                ballRigidBody.AddForce(new Vector3(shootForce, shootHeight, 0f), ForceMode.Impulse);
+                ballRigidBody.AddForce(new Vector3(shootForce, -shootHeight, 0f) * -1, ForceMode.Impulse);
             }
             else
             {
@@ -93,7 +72,7 @@ public class TennisBatScript : MonoBehaviour
             }
 
             timer.StartTimer(.1f, CanAttack);
-
+            
             PlayAnimation();
         }
     }
@@ -105,6 +84,6 @@ public class TennisBatScript : MonoBehaviour
 
     public void CanAttack()
     {
-        GameStatics.canAttack = true;
+        GameStatics.aiCanAttack = true;
     }
 }

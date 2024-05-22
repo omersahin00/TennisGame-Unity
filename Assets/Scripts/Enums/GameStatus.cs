@@ -2,6 +2,6 @@
 {
     NotStart,
     Paused,
-    Started,
+    Run,
     Finished
 }

@@ -33,6 +33,7 @@ public class PlayerScript : MonoBehaviour
         if (GameStatics.canJump && jumpInput)
         {
             //GameStatics.canJump = false;
+
             rb.AddForce(new Vector3(0f, 300f, 0f), ForceMode.Impulse);
         }
     }
