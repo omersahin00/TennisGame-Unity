@@ -4,40 +4,36 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    private Rigidbody rb;
     private GameObject tennisBat;
-    private Animation animation;
 
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         tennisBat = gameObject.transform.GetChild(0).gameObject;
-        animation = tennisBat.GetComponent<Animation>();
-        PlayAnimation();
     }
 
     void Update()
     {
         Move();
-        Attack();
     }
 
     private void Move()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
+        bool jumpInput = Input.GetButtonDown("Jump");
+
+        if (!GameStatics.runFront && verticalInput > 0) verticalInput = 0;
+        if (!GameStatics.runBack && verticalInput < 0) verticalInput = 0;
+        if (!GameStatics.runRight && horizontalInput > 0) horizontalInput = 0;
+        if (!GameStatics.runLeft && horizontalInput < 0) horizontalInput = 0;
+
         transform.Translate(new Vector3(verticalInput, 0f, -horizontalInput) * 10f * Time.deltaTime);
-    }
-
-    private void Attack()
-    {
-        if (Input.GetButtonDown("Fire1"))
+        if (GameStatics.canJump && jumpInput)
         {
-            PlayAnimation();
+            //GameStatics.canJump = false;
+            rb.AddForce(new Vector3(0f, 300f, 0f), ForceMode.Impulse);
         }
-    }
-
-
-    private void PlayAnimation()
-    {
-        animation.Play("TennisBatAnimation");
     }
 }
