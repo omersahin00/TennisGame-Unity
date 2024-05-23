@@ -23,7 +23,7 @@ public class AgentScript : MonoBehaviour
         if (!navMeshAgent.isStopped)
         {
             float distance = (transform.position - targetObject.transform.position).magnitude;
-            if (distance <= 2.5f)
+            if (distance <= 3f)
             {
                 if (GameStatics.forceAttack)
                 {
@@ -38,7 +38,7 @@ public class AgentScript : MonoBehaviour
                 timer.StartTimer(.6f, CanRun);
             }
 
-            if (targetObject.transform.position.x > 1f)
+            if (targetObject.transform.position.x > -2f)
             {
                 navMeshAgent.SetDestination(targetObject.transform.position);
             }
