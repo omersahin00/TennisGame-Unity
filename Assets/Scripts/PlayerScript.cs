@@ -32,9 +32,16 @@ public class PlayerScript : MonoBehaviour
         transform.Translate(new Vector3(verticalInput, 0f, -horizontalInput) * 10f * Time.deltaTime);
         if (GameStatics.canJump && jumpInput)
         {
-            //GameStatics.canJump = false;
-
+            GameStatics.canJump = false;
             rb.AddForce(new Vector3(0f, 300f, 0f), ForceMode.Impulse);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Plane"))
+        {
+            GameStatics.canJump = true;
         }
     }
 }
