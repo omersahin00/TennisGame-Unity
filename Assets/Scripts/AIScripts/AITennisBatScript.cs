@@ -23,6 +23,8 @@ public class AITennisBatScript : MonoBehaviour
         if (GameStatics.aiCanAttack)
         {
             GameStatics.aiCanAttack = false;
+            GameStatics.lastShooter = LastShooter.Agent;
+            GameStatics.ballJumped = false;
 
             RaycastHit hit;
             float distanceToGround = 0f;
@@ -38,17 +40,14 @@ public class AITennisBatScript : MonoBehaviour
             Vector3 distance = transform.position - ballObject.transform.position;
 
             float shootForce = netDistance / 1.5f * (distanceToGround / 3f);
-            float shootHeight = ((3f - netDistance) / 2f - distanceToGround / 6f) / 8f;
+            float shootHeight = ((netDistance - 1f) / 2f - distanceToGround / 6f) / 8f;
             float shootAngle = distance.z / 4f;
 
             if (shootForce > 2f) shootForce = 2f;
 
-            print("distance: " + distance.magnitude + " " + distance.x + " " + distance.y);
-
             if ((distance.magnitude <= 4f || (distance.magnitude <= 4f && distance.y <= 5f)) && distance.x < 4f)
             {
                 ballRigidBody.velocity *= -1;
-                print("ai normal: " + shootForce + "  --  " + shootHeight + "  --  " + shootAngle);
                 ballRigidBody.AddForce(new Vector3(shootForce, shootHeight, shootAngle) * -1, ForceMode.Impulse);
             }
 
@@ -63,6 +62,7 @@ public class AITennisBatScript : MonoBehaviour
             GameStatics.gameStatus = GameStatus.Run;
             GameStatics.aiCanAttack = false;
             GameStatics.forceAttack = false;
+            GameStatics.ballJumped = false;
 
             RaycastHit hit;
             float distanceToGround = 0f;
@@ -83,7 +83,11 @@ public class AITennisBatScript : MonoBehaviour
 
                 if (shootForce > 2f) shootForce = 2f;
 
-                print(shootForce + "  -2-  " + shootHeight + "  -2-  " + shootAngle);
+                if (GameStatics.lastShooter == LastShooter.Null)
+                {
+                    shootForce -= .5f;
+                    shootHeight += .4f;
+                }
 
                 ballRigidBody.velocity = Vector3.zero;
                 ballRigidBody.AddForce(new Vector3(shootForce, -shootHeight, shootAngle) * -1, ForceMode.Impulse);
@@ -92,6 +96,8 @@ public class AITennisBatScript : MonoBehaviour
             {
                 GameStatics.gameStatus = GameStatus.NotStart;
             }
+
+            GameStatics.lastShooter = LastShooter.Agent;
 
             timer.StartTimer(.1f, CanAttack);
             

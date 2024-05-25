@@ -8,6 +8,8 @@ TagManager:
   - Wall
   - TennisBat
   - Plane
+  - OtherPlane
+  - TennisNet
   layers:
   - Default
   - TransparentFX

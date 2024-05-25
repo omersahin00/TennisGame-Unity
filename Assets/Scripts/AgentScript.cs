@@ -38,7 +38,7 @@ public class AgentScript : MonoBehaviour
                 timer.StartTimer(.6f, CanRun);
             }
 
-            if (targetObject.transform.position.x > -2f)
+            if (targetObject.transform.position.x > -2f && GameStatics.gameStatus == GameStatus.Run)
             {
                 navMeshAgent.SetDestination(targetObject.transform.position);
             }

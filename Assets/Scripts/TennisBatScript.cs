@@ -44,6 +44,8 @@ public class TennisBatScript : MonoBehaviour
         if (GameStatics.canAttack)
         {
             GameStatics.canAttack = false;
+            GameStatics.lastShooter = LastShooter.Player;
+            GameStatics.ballJumped = false;
 
             float horizontalMoveForce = Input.GetAxis("Horizontal");
 
@@ -61,7 +63,7 @@ public class TennisBatScript : MonoBehaviour
             Vector3 distance = transform.position - ballObject.transform.position;
 
             float shootForce = netDistance / 1.5f * (distanceToGround / 3f);
-            float shootHeight = - ((3f - netDistance) / 2f - (distanceToGround / 2f)) / 4f;
+            float shootHeight = - ((netDistance - 1f) / 2f - (distanceToGround / 2f)) / 4f;
             float shootAngle = (distance.z / 4f) + horizontalMoveForce / 2f;
 
             if (shootForce > 2f) shootForce = 2f;
@@ -69,7 +71,6 @@ public class TennisBatScript : MonoBehaviour
             if ((distance.magnitude <= 3f || (distance.magnitude <= 3f && distance.y <= 4f)) && distance.x < 1f)
             {
                 ballRigidBody.velocity *= -1;
-                print("player normal: " + shootForce + "  --  " + shootHeight);
                 ballRigidBody.AddForce(new Vector3(shootForce, shootHeight, shootAngle), ForceMode.Impulse);
             }
 
@@ -84,6 +85,8 @@ public class TennisBatScript : MonoBehaviour
             GameStatics.gameStatus = GameStatus.Run;
             GameStatics.canAttack = false;
             GameStatics.forceAttack = false;
+            GameStatics.lastShooter = LastShooter.Player;
+            GameStatics.ballJumped = false;
 
             float verticalMoveForce = Input.GetAxis("Vertical");
             float horizontalMoveForce = Input.GetAxis("Horizontal");
@@ -106,8 +109,6 @@ public class TennisBatScript : MonoBehaviour
                 float shootAngle = (distance.z / 4) + horizontalMoveForce / 2;
 
                 if (shootForce > 2f) shootForce = 2f;
-
-                print(shootForce + "  -1-  " + shootHeight);
 
                 ballRigidBody.velocity = Vector3.zero;
                 ballRigidBody.AddForce(new Vector3(shootForce, shootHeight, shootAngle), ForceMode.Impulse);
