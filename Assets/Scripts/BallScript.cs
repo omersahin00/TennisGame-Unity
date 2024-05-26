@@ -33,17 +33,24 @@ public class BallScript : MonoBehaviour
             else if (collision.gameObject.CompareTag("OtherPlane"))
             {
                 GameStatics.ballSurfaceItHit = BallSurfaceItHit.OtherPlane;
+                GameStatics.gameStatus = GameStatus.Finished;
             }
             else if (collision.gameObject.CompareTag("Wall"))
             {
                 GameStatics.ballSurfaceItHit = BallSurfaceItHit.Wall;
+                GameStatics.gameStatus = GameStatus.Finished;
             }
             else if (collision.gameObject.CompareTag("TennisNet"))
             {
                 GameStatics.ballSurfaceItHit = BallSurfaceItHit.TennisNet;
+                GameStatics.gameStatus = GameStatus.Finished;
             }
-
-            GameStatics.gameStatus = GameStatus.Finished;
+            else if (collision.gameObject.CompareTag("Player"))
+            {
+                GameStatics.ballSurfaceItHit = BallSurfaceItHit.Out;
+                GameStatics.ballJumped = true;
+                GameStatics.gameStatus = GameStatus.Finished;
+            }
         }
     }
 

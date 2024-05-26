@@ -3,5 +3,8 @@
     NotStart,
     Paused,
     Run,
-    Finished
+    Pending,
+    Stoped,
+    Finished,
+    Complated
 }

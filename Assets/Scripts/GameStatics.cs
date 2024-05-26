@@ -31,4 +31,31 @@ public static class GameStatics
     public static int agentScore = 0;
 
     public static bool ballJumped = false;
+
+    public static int finishScore = 10;
+
+
+    public static void ResetGame()
+    {
+        runFront = true;
+        runBack = true;
+        runRight = true;
+        runLeft = true;
+        canJump = true;
+        canAttack = true;
+        forceAttack = true;
+        aiRunFront = true;
+        aiRunBack = true;
+        aiRunRight = true;
+        aiRunLeft = true;
+        aiCanJump = true;
+        aiCanAttack = true;
+        lastShooter = LastShooter.Null;
+        lastWinner = LastWinner.Null;
+        ballSurfaceItHit = BallSurfaceItHit.Null;
+        playerScore = 0;
+        agentScore = 0;
+        ballJumped = false;
+        finishScore = 10;
+    }
 }

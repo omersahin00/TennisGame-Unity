@@ -10,6 +10,7 @@ TagManager:
   - Plane
   - OtherPlane
   - TennisNet
+  - Enemy
   layers:
   - Default
   - TransparentFX

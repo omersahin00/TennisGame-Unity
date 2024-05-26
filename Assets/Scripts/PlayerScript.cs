@@ -50,6 +50,11 @@ public class PlayerScript : MonoBehaviour
         {
             navMeshAgent.enabled = true;
             navMeshAgent.SetDestination(new Vector3(-14f, 1f, -0.75f));
+
+            if (Mathf.Round(transform.position.magnitude) == Mathf.Round(new Vector3(-14f, 1f, -0.75f).magnitude))
+            {                
+                GameStatics.gameStatus = GameStatus.Pending;
+            }
         }
     }
 
